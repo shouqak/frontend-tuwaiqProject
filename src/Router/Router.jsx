@@ -16,6 +16,9 @@ import TeacherDetails from ".././admin/components/teacherSetting/TeacherDetails"
 import CreateNewPrinciple from ".././admin/components/principleSetting/CreateNewPrinciple";
 import ReadAllPrinciple from ".././admin/components/principleSetting/ReadAllPrinciple";
 import PrincipleDetails from ".././admin/components/principleSetting/principleDetails";
+import HpmePage from "../Pages/HpmePage";
+import Signin from "../Pages/Signin";
+import Footer from "../Component/Footer";
 
 
 // layout
@@ -23,11 +26,19 @@ function Layout() {
   return (
     <>
       <Outlet />
+      <Footer/>
     </>
   );
 }
 
 const router = createBrowserRouter([
+    {
+    path: "/",
+    element: <Layout />,
+    children: [{ index: true, element: <HpmePage /> },
+      { path: "/auth/signin", element: <Signin /> }
+    ],
+  },
   {
     path: "/admin",
     element: <Layout />,
@@ -50,17 +61,22 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "teacher/",
+    path: "teacher/:id/",
     element: <Layout />,
     children: [{ index: true, element: <Home /> }],
   },
   {
-    path: "principle/",
+    path: "principle/:id/",
     element: <Layout />,
     children: [{ index: true, element: <Home /> }],
   },
   {
     path: "admin/",
+    element: <Layout />,
+    children: [{ index: true, element: <Home /> }],
+  },
+    {
+    path: "student/:id",
     element: <Layout />,
     children: [{ index: true, element: <Home /> }],
   },

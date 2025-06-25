@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
 import { ToastContainer, toast } from "react-toastify";
@@ -8,7 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 function CreateNewPrinciple() {
   //! error value
   const [fullname, setFullname] = useState("");
-  const [username, setUsername] = useState("");
+  //const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [conPassword, setConPassword] = useState("");
@@ -17,9 +17,9 @@ function CreateNewPrinciple() {
   const [fullnameErr, setFullnameErr] = useState(
     "Full name is required and must be at least 3 characters long."
   );
-  const [UsernameErr, setUsernameErr] = useState(
+/*   const [UsernameErr, setUsernameErr] = useState(
     "Username is required and must be at least 3 characters long."
-  );
+  ); */
   const [emailErr, setEmailErr] = useState(
     "Enter a valid email that includes (@principle.tuwaiq.sa)"
   );
@@ -46,13 +46,13 @@ function CreateNewPrinciple() {
     }
 
     // ! Username validation
-    if (username === "") {
+/*     if (username === "") {
       isValid = false;
       toast.error("Username is required and cannot be left empty");
     } else if (username.length < 3) {
       isValid = false;
       toast.error("Username must be at least 3 characters long");
-    }
+    } */
 
     // ! Email validation
     if (email === "") {
@@ -77,13 +77,12 @@ function CreateNewPrinciple() {
       isValid = false;
       toast.error("The password and confirm password do not match.");
     }
-
     if (isValid) {
       try {
         // Sending data to the API
         const response = await axios.post(`${api}/user`, {
           fullname,
-          username,
+          //username,
           email,
           password,
           role: "principle",
