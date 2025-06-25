@@ -1,0 +1,259 @@
+import axios from "axios"
+import React, { useEffect, useState } from "react"
+import { useNavigate } from "react-router"
+
+import { ToastContainer, toast } from "react-toastify"
+// import AdminNav from "../../components/admin/AdminNav";
+
+function CreateNewStudent() {
+  //! error value
+  const [fullname, setFullname] = useState("")
+  //const [username, setUsername] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [conPassword, setConPassword] = useState("")
+  const [classId, setClassId] = useState("")
+  const [classes, setClasses] = useState([])
+
+  // ! error message
+  const [fullnameErr, setFullnameErr] = useState(
+    "Full name is required and must be at least 3 characters long."
+  )
+/*   const [UsernameErr, setUsernameErr] = useState(
+    "Username is required and must be at least 3 characters long."
+  ) */
+  const [emailErr, setEmailErr] = useState(
+    "Enter a valid email that includes (@student.tuwaiq.sa)"
+  )
+  const [passwordErr, setPasswordErr] = useState(
+    "Password must be at least 8 characters long."
+  )
+  const [conPasswordErr, setConPasswordErr] = useState(
+    "Please confirm your password."
+  )
+
+  const nav = useNavigate()
+  const api = "https://68219a2d259dad2655afc2ba.mockapi.io"
+
+  // Load classes
+  useEffect(() => {
+    const fetchClasses = async () => {
+      try {
+        const res = await axios.get(`${api}/classes`)
+        setClasses(res.data)
+      } catch (err) {
+        console.error("Failed to fetch classes:", err)
+        toast.error("Could not load classes.")
+      }
+    }
+
+    fetchClasses()
+  }, [])
+
+  const register = async () => {
+    let isValid = true
+
+    // ! Full name validation
+    if (fullname === "") {
+      isValid = false
+      toast.error("Full name is required and cannot be left empty")
+    } else if (fullname.length < 3) {
+      isValid = false
+      toast.error("Full name must be at least 3 characters long")
+    }
+
+    // ! Username validation
+/*     if (username === "") {
+      isValid = false
+      toast.error("Username is required and cannot be left empty")
+    } else if (username.length < 3) {
+      isValid = false
+      toast.error("Username must be at least 3 characters long")
+    } */
+
+    // ! Email validation
+    if (email === "") {
+      isValid = false
+      toast.error("Email is required and cannot be left empty")
+    } else if (!email.includes("student.tuwaiq.sa")) {
+      isValid = false
+      toast.error("Email must include @student.tuwaiq.sa")
+    }
+
+    // ! Password validation
+    if (password === "") {
+      isValid = false
+      toast.error("Password is required and cannot be left empty")
+    } else if (password.length < 8) {
+      isValid = false
+      toast.error("Password must be at least 8 characters long")
+    }
+
+    // ! Confirm password validation
+    if (password !== conPassword) {
+      isValid = false
+      toast.error("The password and confirm password do not match.")
+    }
+
+    if (!classId) {
+      isValid = false
+      toast.error("Please select a class")
+    }
+
+    if (isValid) {
+      try {
+        // Sending data to the API
+        const response = await axios.post(`${api}/user`, {
+          fullname,
+          //username,
+          email,
+          password,
+          role: "student",
+          classId,
+        })
+
+        // Save data to local storage
+        localStorage.setItem("fullname", fullname)
+        //localStorage.setItem("username", username)
+        localStorage.setItem("email", email)
+        localStorage.setItem("password", password)
+        localStorage.setItem("role", "student")
+        localStorage.setItem("classId", classId)
+
+        nav("/admin/readStudent")
+        // Success toast
+        toast.success("Registration completed successfully!")
+      } catch (error) {
+        console.error("Error during registration:", error)
+        toast.error("An error occurred while registering. Please try again.")
+      }
+    } else {
+      toast.error("Please fix the errors in the form before submitting.")
+    }
+  }
+
+  return (
+    // todo : register form
+    <div>
+      <div>{/* <AdminNav /> */}</div>
+     <div className="min-h-screen flex justify-center items-center bg-gray-50 px-4 py-8">
+  <div className="flex flex-col md:flex-row gap-10 shadow-2xl rounded-2xl bg-white overflow-hidden max-w-4xl w-full">
+    
+    <div className="bg-blue-600 text-white p-8 flex flex-col justify-center">
+      <h1 className="text-3xl font-bold mb-2">Attendance System</h1>
+      <p className="text-lg opacity-90">Create a new student account</p>
+    </div>
+
+    {/* Form Section */}
+    <div className="flex flex-col gap-5 p-8 w-full">
+
+      {/* Full Name */}
+      <div className="flex flex-col gap-1">
+        <label htmlFor="fname" className="font-medium text-sm text-gray-700">
+          Full Name
+        </label>
+        <input
+          type="text"
+          id="fname"
+          className="border border-gray-300 rounded-lg h-10 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          value={fullname}
+          onChange={(e) => setFullname(e.target.value)}
+        />
+        <span className="text-xs text-gray-500">{fullnameErr}</span>
+      </div>
+
+      {/* Username */}
+      {/* <div className="flex flex-col gap-1">
+        <label htmlFor="username" className="font-medium text-sm text-gray-700">
+          Username
+        </label>
+        <input
+          type="text"
+          id="username"
+          className="border border-gray-300 rounded-lg h-10 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <span className="text-xs text-gray-500">{UsernameErr}</span>
+      </div> */}
+
+      {/* Email */}
+      <div className="flex flex-col gap-1">
+        <label htmlFor="email" className="font-medium text-sm text-gray-700">
+          Email
+        </label>
+        <input
+          type="email"
+          id="email"
+          className="border border-gray-300 rounded-lg h-10 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <span className="text-xs text-gray-500">{emailErr}</span>
+      </div>
+
+      {/* Password */}
+      <div className="flex flex-col gap-1">
+        <label htmlFor="password" className="font-medium text-sm text-gray-700">
+          Password
+        </label>
+        <input
+          type="password"
+          id="password"
+          className="border border-gray-300 rounded-lg h-10 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <span className="text-xs text-gray-500">{passwordErr}</span>
+      </div>
+
+      {/* Confirm Password */}
+      <div className="flex flex-col gap-1">
+        <label htmlFor="conPassword" className="font-medium text-sm text-gray-700">
+          Confirm Password
+        </label>
+        <input
+          type="password"
+          id="conPassword"
+          className="border border-gray-300 rounded-lg h-10 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          value={conPassword}
+          onChange={(e) => setConPassword(e.target.value)}
+        />
+        <span className="text-xs text-gray-500">{conPasswordErr}</span>
+      </div>
+
+      {/* Assign Class */}
+      <div className="flex flex-col gap-1">
+        <label className="font-medium text-sm text-gray-700">Assign Class</label>
+        <select
+          className="border border-gray-300 rounded-lg h-10 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          value={classId}
+          onChange={(e) => setClassId(e.target.value)}
+        >
+          <option value="">Select a class</option>
+          {classes.map((cls) => (
+            <option key={cls.id} value={cls.id}>
+              {cls.name || `Class ${cls.id}`}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Submit Button */}
+      <div className="mt-2">
+        <ToastContainer />
+        <button
+          onClick={register}
+          className="w-full bg-blue-600 hover:bg-blue-700 transition text-white font-medium py-2 rounded-lg"
+        >
+          Register
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+  )
+}
+
+export default CreateNewStudent
