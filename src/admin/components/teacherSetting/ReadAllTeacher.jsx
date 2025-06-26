@@ -12,7 +12,6 @@ const ReadAllTeacher = () => {
   //const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-
   useEffect(() => {
     fetchData();
   }, []);
@@ -23,9 +22,10 @@ const ReadAllTeacher = () => {
 
       // Fetch teachers
       const teacherRes = await axios.get(`${API_URL}/users`);
-      const filteredTeachers = teacherRes.data.filter(
-        (user) => user.role === "teacher"
-      );
+      const filteredTeachers = teacherRes.data.filter((user) => {
+        user.role === "teacher";
+        console.log("this is a user", user);
+      });
 
       // Fetch classes
       const classRes = await axios.get(`${API_URL}/class`);
@@ -53,11 +53,11 @@ const ReadAllTeacher = () => {
 
   const filteredTeachers = teachers.filter(
     (teacher) =>
-      teacher.fullname.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      teacher.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       teacher.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-/*   if (!loading) {
+  /*   if (!loading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
         <div className="flex flex-col items-center">
@@ -94,10 +94,18 @@ const ReadAllTeacher = () => {
           <table className="w-full table-auto">
             <thead className="bg-blue-600 text-white">
               <tr>
-                <th className="px-4 py-3 text-left text-sm font-semibold">Full Name</th>
-                <th className="px-4 py-3 text-left text-sm font-semibold">Email</th>
-                <th className="px-4 py-3 text-left text-sm font-semibold">Assigned Class</th>
-                <th className="px-4 py-3 text-left text-sm font-semibold">Details</th>
+                <th className="px-4 py-3 text-left text-sm font-semibold">
+                  Full Name
+                </th>
+                <th className="px-4 py-3 text-left text-sm font-semibold">
+                  Email
+                </th>
+                <th className="px-4 py-3 text-left text-sm font-semibold">
+                  Assigned Class
+                </th>
+                <th className="px-4 py-3 text-left text-sm font-semibold">
+                  Details
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -109,10 +117,19 @@ const ReadAllTeacher = () => {
                 </tr>
               ) : (
                 filteredTeachers.map((teacher, index) => (
-                  <tr key={teacher.id} className={`${index % 2 === 0 ? "bg-gray-100" : "bg-white"}`}>
-                    <td className="px-4 py-3 text-gray-700">{teacher.fullname}</td>
+                  <tr
+                    key={teacher.id}
+                    className={`${
+                      index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                    }`}
+                  >
+                    <td className="px-4 py-3 text-gray-700">
+                      {teacher.name}
+                    </td>
                     <td className="px-4 py-3 text-gray-700">{teacher.email}</td>
-                    <td className="px-4 py-3 text-gray-700">{teacher.className}</td>
+                    <td className="px-4 py-3 text-gray-700">
+                      {teacher.className}
+                    </td>
                     <td className="px-4 py-3">
                       <Link
                         to={`/admin/TeacherDetails/${teacher.id}`}
