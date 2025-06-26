@@ -21,7 +21,9 @@ const ReadAllTeacher = () => {
       //setLoading(true);
 
       // Fetch teachers
-      const teacherRes = await axios.get(`${API_URL}admin/users`);
+      const teacherRes = await axios.get(`${API_URL}admin/users`, {
+        withCredentials: true,
+      });
       const filteredTeachers = teacherRes.data.filter((user) => {
         user.role === "teacher";
         console.log("this is a user", user);
@@ -123,9 +125,7 @@ const ReadAllTeacher = () => {
                       index % 2 === 0 ? "bg-gray-100" : "bg-white"
                     }`}
                   >
-                    <td className="px-4 py-3 text-gray-700">
-                      {teacher.name}
-                    </td>
+                    <td className="px-4 py-3 text-gray-700">{teacher.name}</td>
                     <td className="px-4 py-3 text-gray-700">{teacher.email}</td>
                     <td className="px-4 py-3 text-gray-700">
                       {teacher.className}
