@@ -16,7 +16,7 @@ const ReadAllClasses = () => {
   const fetchClasses = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${API_URL}class`);
+      const response = await axios.get(`${API_URL}class`, { withCredentials: true});
       setClasses(response.data);
     } catch (error) {
       console.error("Error fetching classes:", error);
