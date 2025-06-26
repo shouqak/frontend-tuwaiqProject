@@ -36,7 +36,7 @@ const ReadAllTeacher = () => {
 
       // Map classId → className for easy lookup
       const classMap = {};
-      classRes.data.forEach((cls) => {
+      classRes.data.data.forEach((cls) => {
         classMap[cls.id] = cls.name;
       });
 
