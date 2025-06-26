@@ -17,7 +17,7 @@ const StudentDetails = () => {
   const fetchStudentDetails = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${API_URL}/user/${id}`);
+      const response = await axios.get(`${API_URL}admin/users/${id}`);
       setStudent(response.data);
     } catch (error) {
       console.error("Error fetching student details:", error);
@@ -29,7 +29,7 @@ const StudentDetails = () => {
   const deleteStudent = async () => {
     try {
       setLoading(true);
-      await axios.delete(`${apiUrl}/user/${id}`);
+      await axios.delete(`${API_URL}admin/users/${id}`);
       alert("Student deleted successfully!");
       navigate("/admin/readStudent");
     } catch (error) {
@@ -42,7 +42,7 @@ const StudentDetails = () => {
   const update = async () => {
     try {
       setLoading(true);
-      await axios.put(`${apiUrl}/user/${id}`, student);
+      await axios.put(`${API_URL}/users/${id}`, student);
       alert("Student details updated successfully!");
       navigate("/admin/readStudent");
     } catch (error) {
