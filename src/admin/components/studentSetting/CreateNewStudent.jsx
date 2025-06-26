@@ -4,18 +4,15 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function CreateNewStudent() {
   const [name, setname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [conPassword, setConPassword] = useState("");
-
   const navigate = useNavigate();
-  // const apiUrl = "http://localhost:3000"
-  // console.log(token)
 
-  localStorage.getItem("token");
   const register = async () => {
     let isValid = true;
 
@@ -44,11 +41,9 @@ function CreateNewStudent() {
     if (!isValid) return;
 
     try {
-      const apiUrl = " https://attendancesystem-ar5v.onrender.com/";
-      const token = localStorage.getItem("token");
-
+    
       const response = await axios.post(
-        `${apiUrl}/admin/users`,
+        `${API_URL}/admin/users`,
         {
           name,
           email,
@@ -58,13 +53,6 @@ function CreateNewStudent() {
         {
           withCredentials: true,
         }
-
-        /*   {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        } */
       );
       const tokenResponse = response.data.token;
       console.log(tokenResponse);
