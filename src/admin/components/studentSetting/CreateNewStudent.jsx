@@ -43,7 +43,7 @@ function CreateNewStudent() {
     try {
     
       const response = await axios.post(
-        `${API_URL}/admin/users`,
+        `${API_URL}admin/users`,
         {
           name,
           email,
