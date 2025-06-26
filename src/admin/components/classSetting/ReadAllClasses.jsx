@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router";
-import { apiUrl } from "../../../Utility/Utility";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const ReadAllClasses = () => {
   const [classes, setClasses] = useState([]);
@@ -16,7 +16,7 @@ const ReadAllClasses = () => {
   const fetchClasses = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${apiUrl}/classes`);
+      const response = await axios.get(`${API_URL}/class`);
       setClasses(response.data);
     } catch (error) {
       console.error("Error fetching classes:", error);
