@@ -2,8 +2,8 @@ import { createBrowserRouter, Outlet, RouterProvider } from "react-router";
 
 // ---------- Admin
 import Home from "../student/pages/Home";
-import CreateNewAdmin from ".././admin/components/adminSetting/CreateNewAdmin";
-import AdminHome from "../admin/pages/AdminHome";
+/* import CreateNewAdmin from ".././admin/components/adminSetting/CreateNewAdmin";
+ */import AdminHome from "../admin/pages/AdminHome";
 //  admin => student setting
 import CreateNewStudent from ".././admin/components/studentSetting/CreateNewStudent";
 import ReadAllStudent from ".././admin/components/studentSetting/ReadAllStudent";
@@ -16,9 +16,14 @@ import TeacherDetails from ".././admin/components/teacherSetting/TeacherDetails"
 import CreateNewPrinciple from ".././admin/components/principleSetting/CreateNewPrinciple";
 import ReadAllPrinciple from ".././admin/components/principleSetting/ReadAllPrinciple";
 import PrincipleDetails from ".././admin/components/principleSetting/principleDetails";
-import HpmePage from "../Pages/HpmePage";
-import Signin from "../Pages/Signin";
+import HomePage from "../Pages/HomePage";
 import Footer from "../Component/Footer";
+import Signin from "../Pages/Signin";
+import CreateNewClass from "../admin/components/classSetting/CreateClass";
+import ReadAllClasses from "../admin/components/classSetting/ReadAllClasses";
+import ClassDetails from "../admin/components/classSetting/ClassDetails";
+import NavbarAdmin from "../admin/components/adminSetting/NavbarAdmin";
+import AttendanceActionsPage from "../admin/components/Attendance/AttendanceActionsPage";
 
 
 // layout
@@ -31,21 +36,31 @@ function Layout() {
   );
 }
 
+function AdminLayout() {
+  return (
+    <>
+    <NavbarAdmin/>
+      <Outlet />
+      <Footer/>
+    </>
+  );
+}
+
 const router = createBrowserRouter([
     {
     path: "/",
     element: <Layout />,
-    children: [{ index: true, element: <HpmePage /> },
+    children: [{ index: true, element: <HomePage /> },
       { path: "/auth/signin", element: <Signin /> }
     ],
   },
   {
     path: "/admin",
-    element: <Layout />,
+    element:<AdminLayout/>,
     children: [
-      { index: true, element: <Home /> },
-      { path: "createAdmin", element: <CreateNewAdmin /> },
-      { path: "adminHome", element: <AdminHome /> },
+      { index: true, element: <AdminHome /> },
+     /*  { path: "createAdmin", element: <CreateNewAdmin /> }, */
+      /* { path: "adminHome", element: <AdminHome /> }, */
       // Student setting
       { path: "createStudent", element: <CreateNewStudent /> },
       { path: "readStudent", element: <ReadAllStudent /> },
@@ -58,25 +73,27 @@ const router = createBrowserRouter([
       { path: "createPrinciple", element: <CreateNewPrinciple /> },
       { path: "readPrinciple", element: <ReadAllPrinciple /> },
       { path: "principleDetails/:id", element: <PrincipleDetails /> },
+      //Class Setting
+       { path: "createClass", element: <CreateNewClass /> },
+      { path: "readClasses", element: <ReadAllClasses /> },
+      { path: "classDetails/:id", element: <ClassDetails/> },
+      { path: "Attendance", element: <AttendanceActionsPage/> },
+
     ],
   },
   {
-    path: "teacher/:id/",
+    path: "/teacher/:id/",
     element: <Layout />,
     children: [{ index: true, element: <Home /> }],
   },
   {
-    path: "principle/:id/",
+    path: "/principle/:id/",
     element: <Layout />,
     children: [{ index: true, element: <Home /> }],
   },
-  {
-    path: "admin/",
-    element: <Layout />,
-    children: [{ index: true, element: <Home /> }],
-  },
+
     {
-    path: "student/:id",
+    path: "/student/:id",
     element: <Layout />,
     children: [{ index: true, element: <Home /> }],
   },

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router"
 
 import { ToastContainer, toast } from "react-toastify"
+import { apiUrl } from "../../../Utility/Utility"
 // import AdminNav from "../../components/admin/AdminNav";
 
 function CreateNewTeacher() {
@@ -12,8 +13,7 @@ function CreateNewTeacher() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [conPassword, setConPassword] = useState("")
-  const [classId, setClassId] = useState("")
-  const [classes, setClasses] = useState([])
+
 
   // ! error message
   const [fullnameErr, setFullnameErr] = useState(
@@ -33,21 +33,8 @@ function CreateNewTeacher() {
   )
 
   const nav = useNavigate()
-  const api = "https://68219a2d259dad2655afc2ba.mockapi.io"
 
-  // Load classes
-  useEffect(() => {
-    const fetchClasses = async () => {
-      try {
-        const res = await axios.get(`${api}/classes`)
-        setClasses(res.data)
-      } catch (err) {
-        console.error("Failed to fetch classes:", err)
-        toast.error("Could not load classes.")
-      }
-    }
-    fetchClasses()
-  }, [])
+
 
   const register = async () => {
     let isValid = true
@@ -101,14 +88,13 @@ function CreateNewTeacher() {
 
     if (isValid) {
       try {
-        // Sending data to the API
-        const response = await axios.post(`${api}/user`, {
+        // Sending data to the apiUrl
+        const response = await axios.post(`${apiUrl}/user`, {
           fullname,
           //username,
           email,
           password,
           role: "Teacher",
-          classId,
         })
 
         // Save data to local storage
@@ -117,7 +103,6 @@ function CreateNewTeacher() {
         localStorage.setItem("email", email)
         localStorage.setItem("password", password)
         localStorage.setItem("role", "Teacher")
-        localStorage.setItem("classId", classId)
 
         nav("/admin/readTeacher")
         // Success toast
@@ -224,22 +209,6 @@ function CreateNewTeacher() {
           <span className="text-xs text-gray-500">{conPasswordErr}</span>
         </div>
 
-        {/* Assign Class */}
-        <div className="flex flex-col gap-1">
-          <label className="font-medium text-sm text-gray-700">Assign Class</label>
-          <select
-            className="border border-gray-300 rounded-lg h-10 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={classId}
-            onChange={(e) => setClassId(e.target.value)}
-          >
-            <option value="">Select a class</option>
-            {classes.map((cls) => (
-              <option key={cls.id} value={cls.id}>
-                {cls.name || `Class ${cls.id}`}
-              </option>
-            ))}
-          </select>
-        </div>
 
         {/* Submit Button */}
         <div className="pt-2">

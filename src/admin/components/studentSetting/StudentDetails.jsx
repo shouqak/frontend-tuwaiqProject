@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router";
+import { apiUrl } from "../../../Utility/Utility";
 
 const StudentDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const api = "https://68219a2d259dad2655afc2ba.mockapi.io";
   const [student, setStudent] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -16,7 +16,7 @@ const StudentDetails = () => {
   const fetchStudentDetails = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${api}/user/${id}`);
+      const response = await axios.get(`${apiUrl}/user/${id}`);
       setStudent(response.data);
     } catch (error) {
       console.error("Error fetching student details:", error);
@@ -28,7 +28,7 @@ const StudentDetails = () => {
   const deleteStudent = async () => {
     try {
       setLoading(true);
-      await axios.delete(`${api}/user/${id}`);
+      await axios.delete(`${apiUrl}/user/${id}`);
       alert("Student deleted successfully!");
       navigate("/admin/readStudent");
     } catch (error) {
@@ -41,7 +41,7 @@ const StudentDetails = () => {
   const update = async () => {
     try {
       setLoading(true);
-      await axios.put(`${api}/user/${id}`, student);
+      await axios.put(`${apiUrl}/user/${id}`, student);
       alert("Student details updated successfully!");
       navigate("/admin/readStudent");
     } catch (error) {
@@ -97,13 +97,7 @@ const StudentDetails = () => {
             value={student.fullname}
             onChange={onChange}
           />
-          <InputField
-            label="Username"
-            name="username"
-            type="text"
-            value={student.username}
-            onChange={onChange}
-          />
+          
           <InputField
             label="Email"
             name="email"

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router";
+import { apiUrl } from "../../../Utility/Utility";
 
 const TeacherDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const api = "https://68219a2d259dad2655afc2ba.mockapi.io";
   const [Teacher, setTeacher] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -16,7 +16,7 @@ const TeacherDetails = () => {
   const fetchTeacherDetails = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${api}/user/${id}`);
+      const response = await axios.get(`${apiUrl}/user/${id}`);
       setTeacher(response.data);
     } catch (error) {
       console.error("Error fetching Teacher details:", error);
@@ -28,7 +28,7 @@ const TeacherDetails = () => {
   const deleteTeacher = async () => {
     try {
       setLoading(true);
-      await axios.delete(`${api}/user/${id}`);
+      await axios.delete(`${apiUrl}/user/${id}`);
       alert("Teacher deleted successfully!");
       navigate("/admin/readTeacher");
     } catch (error) {
@@ -41,7 +41,7 @@ const TeacherDetails = () => {
   const update = async () => {
     try {
       setLoading(true);
-      await axios.put(`${api}/user/${id}`, Teacher);
+      await axios.put(`${apiUrl}/user/${id}`, Teacher);
       alert("Teacher details updated successfully!");
       navigate("/admin/readTeacher");
     } catch (error) {
@@ -97,13 +97,7 @@ const TeacherDetails = () => {
             value={Teacher.fullname}
             onChange={onChange}
           />
-          <InputField
-            label="Username"
-            name="username"
-            type="text"
-            value={Teacher.username}
-            onChange={onChange}
-          />
+          
           <InputField
             label="Email"
             name="email"
@@ -118,6 +112,7 @@ const TeacherDetails = () => {
             value={Teacher.password}
             onChange={onChange}
           />
+          
 
           <div className="flex items-center justify-center w-full gap-4 mt-4">
             <button
