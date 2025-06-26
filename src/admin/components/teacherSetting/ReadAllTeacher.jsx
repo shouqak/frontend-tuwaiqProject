@@ -24,7 +24,7 @@ const ReadAllTeacher = () => {
       const teacherRes = await axios.get(`${API_URL}admin/users`, {
         withCredentials: true,
       });
-      const filteredTeachers = teacherRes.data.filter((user) => {
+      const filteredTeachers = teacherRes.data.data.filter((user) => {
         user.role === "teacher";
         console.log("this is a user", user);
       });
