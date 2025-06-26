@@ -21,14 +21,14 @@ const ReadAllTeacher = () => {
       //setLoading(true);
 
       // Fetch teachers
-      const teacherRes = await axios.get(`${API_URL}/users`);
+      const teacherRes = await axios.get(`${API_URL}users`);
       const filteredTeachers = teacherRes.data.filter((user) => {
         user.role === "teacher";
         console.log("this is a user", user);
       });
 
       // Fetch classes
-      const classRes = await axios.get(`${API_URL}/class`);
+      const classRes = await axios.get(`${API_URL}class`);
 
       // Map classId → className for easy lookup
       const classMap = {};
