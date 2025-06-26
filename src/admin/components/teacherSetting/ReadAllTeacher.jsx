@@ -26,8 +26,8 @@ const ReadAllTeacher = () => {
       });
       const filteredTeachers = teacherRes.data.data.filter((user) => {
         user.role === "teacher";
-        console.log("this is a user", user);
       });
+      console.log(filteredTeachers)
 
       // Fetch classes
       const classRes = await axios.get(`${API_URL}class`, {

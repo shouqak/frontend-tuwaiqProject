@@ -17,7 +17,9 @@ const StudentDetails = () => {
   const fetchStudentDetails = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${API_URL}admin/users/${id}`);
+      const response = await axios.get(`${API_URL}admin/users/${id}`, {
+        withCredentials: true
+      });
       setStudent(response.data);
     } catch (error) {
       console.error("Error fetching student details:", error);
