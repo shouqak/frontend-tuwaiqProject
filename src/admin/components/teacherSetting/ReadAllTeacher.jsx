@@ -109,7 +109,7 @@ const ReadAllTeacher = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredTeachers.length === 0 ? (
+              {teachers.length === 0 ? (
                 <tr>
                   <td colSpan="4" className="text-center py-4 text-gray-500">
                     No teachers found.
