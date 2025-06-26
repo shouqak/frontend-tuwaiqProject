@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 const API_URL = import.meta.env.VITE_API_URL;
 
 const ReadAllClasses = () => {
   const [classes, setClasses] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
     fetchClasses();
@@ -16,8 +15,10 @@ const ReadAllClasses = () => {
   const fetchClasses = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${API_URL}class`, { withCredentials: true});
-      setClasses(response.data);
+      const response = await axios.get(`${API_URL}class`, {
+        withCredentials: true,
+      });
+      setClasses(response.data.data);
     } catch (error) {
       console.error("Error fetching classes:", error);
     } finally {
@@ -40,7 +41,8 @@ const ReadAllClasses = () => {
   const filteredClasses = classes.filter(
     (cls) =>
       cls.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (cls.teacherName && cls.teacherName.toLowerCase().includes(searchQuery.toLowerCase()))
+      (cls.teacherName &&
+        cls.teacherName.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
   if (loading) {
@@ -80,25 +82,43 @@ const ReadAllClasses = () => {
           <table className="w-full table-auto">
             <thead className="bg-blue-600 text-white">
               <tr>
-                <th className="px-6 py-3 text-left text-sm font-semibold">Class Name</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">Description</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">Teacher</th>
-                <th className="px-6 py-3 text-right text-sm font-semibold">Actions</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold">
+                  Class Name
+                </th>
+                <th className="px-6 py-3 text-left text-sm font-semibold">
+                  Description
+                </th>
+                <th className="px-6 py-3 text-left text-sm font-semibold">
+                  Teacher
+                </th>
+                <th className="px-6 py-3 text-right text-sm font-semibold">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
               {filteredClasses.length === 0 ? (
                 <tr>
-                  <td colSpan="4" className="px-6 py-4 text-center text-gray-500">
+                  <td
+                    colSpan="4"
+                    className="px-6 py-4 text-center text-gray-500"
+                  >
                     No classes found.
                   </td>
                 </tr>
               ) : (
                 filteredClasses.map((cls) => (
-                  <tr key={cls.id} className="hover:bg-gray-50 transition-colors">
+                  <tr
+                    key={cls.id}
+                    className="hover:bg-gray-50 transition-colors"
+                  >
                     <td className="px-6 py-4 font-medium">{cls.name}</td>
-                    <td className="px-6 py-4 text-gray-600">{cls.description || "-"}</td>
-                    <td className="px-6 py-4">{cls.teacherName || "Unassigned"}</td>
+                    <td className="px-6 py-4 text-gray-600">
+                      {cls.description || "-"}
+                    </td>
+                    <td className="px-6 py-4">
+                      {cls.teacherName || "Unassigned"}
+                    </td>
                     <td className="px-6 py-4 text-right space-x-2 space-x-reverse">
                       <Link
                         to={`/admin/classDetails/${cls.id}`}
