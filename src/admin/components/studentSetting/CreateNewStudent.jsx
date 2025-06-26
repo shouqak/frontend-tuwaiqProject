@@ -44,7 +44,7 @@ function CreateNewStudent() {
     if (!isValid) return;
 
     try {
-      const apiUrl = "http://localhost:3000";
+      const apiUrl = " https://attendancesystem-ar5v.onrender.com/";
       const token = localStorage.getItem("token");
 
       const response = await axios.post(
