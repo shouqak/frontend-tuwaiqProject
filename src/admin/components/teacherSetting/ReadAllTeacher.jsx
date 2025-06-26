@@ -25,8 +25,7 @@ const ReadAllTeacher = () => {
         withCredentials: true,
       });
       const filteredTeachers = teacherRes.data.data.filter((user) => {
-        user.role === "teacher";
-        console.log("This is a user:", user)
+        return user.role === "teacher";
       });
       console.log(filteredTeachers)
 
