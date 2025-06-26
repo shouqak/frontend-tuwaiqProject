@@ -22,7 +22,7 @@ const ReadAllTeacher = () => {
       //setLoading(true);
 
       // Fetch teachers
-      const teacherRes = await axios.get(`${API_URL}/user`);
+      const teacherRes = await axios.get(`${API_URL}/users`);
       const filteredTeachers = teacherRes.data.filter(
         (user) => user.role === "Teacher"
       );
