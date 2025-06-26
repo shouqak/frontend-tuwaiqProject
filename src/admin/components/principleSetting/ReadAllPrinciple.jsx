@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router";
-import { apiUrl } from "../../../Utility/Utility";
+const API_URL = import.meta.env.VITE_API_URL;
 // import AdminNav from "../../components/admin/AdminNav";
 
 const ReadAllPrinciple = () => {
@@ -17,9 +17,9 @@ const ReadAllPrinciple = () => {
   const fetchPrinciples = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${apiUrl}/user`);
-      const filteredPrinciples = response.data.filter(
-        (user) => user.role === "principle"
+      const response = await axios.get(`${API_URL}admin/users`, {withCredentials: true});
+      const filteredPrinciples = response.data.data.filter(
+        (user) => user.role === "principal"
       );
       setPrinciples(filteredPrinciples);
     } catch (error) {
@@ -30,7 +30,7 @@ const ReadAllPrinciple = () => {
 
   const filteredPrinciples = Principles.filter(
     (Principle) =>
-      Principle.fullname.toLowerCase().includes(searchPrinciple.toLowerCase()) ||
+      Principle.name.toLowerCase().includes(searchPrinciple.toLowerCase()) ||
       //Principle.username.toLowerCase().includes(searchPrinciple.toLowerCase()) ||
       Principle.email.toLowerCase().includes(searchPrinciple.toLowerCase())
   );
