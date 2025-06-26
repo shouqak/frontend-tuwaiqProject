@@ -1,58 +1,62 @@
-import axios from "axios"
-import React, { useState } from "react"
+import axios from "axios";
+import React, { useState } from "react";
 // import { GiToken } from "react-icons/gi"/
-import { useNavigate } from "react-router"
-import { ToastContainer, toast } from "react-toastify"
-import "react-toastify/dist/ReactToastify.css"
+import { useNavigate } from "react-router";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function CreateNewStudent() {
-  const [fullname, setFullname] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [conPassword, setConPassword] = useState("")
+  const [name, setname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [conPassword, setConPassword] = useState("");
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   // const apiUrl = "http://localhost:3000"
   // console.log(token)
 
-  localStorage.getItem("token")
+  localStorage.getItem("token");
   const register = async () => {
-    let isValid = true
+    let isValid = true;
 
-    if (!fullname || fullname.length < 3) {
-      isValid = false
-      toast.error("Full name is required and must be at least 3 characters.")
+    if (!name || name.length < 3) {
+      isValid = false;
+      toast.error("Full name is required and must be at least 3 characters.");
     }
 
     if (!email || !email.includes("@student.tuwaiq.sa")) {
-      isValid = false
+      isValid = false;
       toast.error(
         "Valid student email ending with @student.tuwaiq.sa is required."
-      )
+      );
     }
 
     if (!password || password.length < 8) {
-      isValid = false
-      toast.error("Password must be at least 8 characters long.")
+      isValid = false;
+      toast.error("Password must be at least 8 characters long.");
     }
 
     if (password !== conPassword) {
-      isValid = false
-      toast.error("Passwords do not match.")
+      isValid = false;
+      toast.error("Passwords do not match.");
     }
 
-    if (!isValid) return
+    if (!isValid) return;
 
     try {
-      const apiUrl = "http://localhost:3000"
-      
+      const apiUrl = "http://localhost:3000";
+      const token = localStorage.getItem("token");
+
       const response = await axios.post(
         `${apiUrl}/admin/users`,
         {
-          fullname,
+          name,
           email,
           password,
           role: "student",
+        },
+        {
+          withCredentials: true,
         }
 
         /*   {
@@ -61,23 +65,23 @@ function CreateNewStudent() {
             "Content-Type": "application/json",
           },
         } */
-      )
-      const token = response.data.token
-      console.log(token)
+      );
+      const tokenResponse = response.data.token;
+      console.log(tokenResponse);
 
-      toast.success("Student registered successfully!")
+      toast.success("Student registered successfully!");
       setTimeout(() => {
-        navigate("/admin/readStudent")
-      }, 1000)
+        navigate("/admin/readStudent");
+      }, 1000);
     } catch (error) {
       const errorMessage =
         error.response?.data?.message ||
         error.message ||
-        "Failed to register student."
-      toast.error(errorMessage)
-      console.error("Error registering student:", error)
+        "Failed to register student.";
+      toast.error(errorMessage);
+      console.error("Error registering student:", error);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-gray-50 px-4 py-8">
@@ -99,8 +103,8 @@ function CreateNewStudent() {
             <input
               type="text"
               id="fname"
-              value={fullname}
-              onChange={(e) => setFullname(e.target.value)}
+              value={name}
+              onChange={(e) => setname(e.target.value)}
               className="border border-gray-300 rounded-lg h-10 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
@@ -169,7 +173,7 @@ function CreateNewStudent() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default CreateNewStudent
+export default CreateNewStudent;

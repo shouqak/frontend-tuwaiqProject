@@ -5,7 +5,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { SlArrowLeft } from "react-icons/sl";
 import { Link, useNavigate } from "react-router";
 
-
 /* interceptors.request.use((config) => {
   const token = localStorage.getItem("token"); // or get from cookie
   if (token) {
@@ -26,66 +25,77 @@ function Signin() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  if (!email || !password) {
-    toast.error("Please fill in all fields");
-    return;
-  }
-
-  setLoading(true);
-
-  try {
-    const trimmedEmail = email.trim().toLowerCase();
-
-    const res = await axios.post("http://localhost:3000/auth/signin",
-      {email: trimmedEmail,password},
-{withCredentials:true}
-    );
-
-    console.log("Response data:", res.data);
-
-    const { accessToken, refreshToken, user } = res.data.data;
-
-    if (!accessToken || !user) {
-      throw new Error("Authentication failed: Missing token or user.");
-    }
-
-    // Save tokens securely (via backend HttpOnly cookie)
-    // Optional: store user info in localStorage
-    localStorage.setItem("user", JSON.stringify(user));
-
-    // Optionally set token in Axios (if not using HttpOnly cookies)
-    localStorage.setItem("token", accessToken); // or skip if cookies
-
-    // Redirect logic
-    if (user.role === "admin" || trimmedEmail.endsWith("@admin.com")) {
-      navigate("/admin");
-    } else if (user.role === "student" || trimmedEmail.endsWith("@student.tuwaiq.sa")) {
-      navigate(`/student/${user.id}`);
-    } else if (user.role === "teacher" || trimmedEmail.endsWith("@teacher.tuwaiq.sa")) {
-      navigate(`/teacher/${user.id}`);
-    } else if (user.role === "principle" || trimmedEmail.endsWith("@principle.tuwaiq.sa")) {
-      navigate(`/principle/${user.id}`);
-    } else {
-      toast.error("Login failed: Unsupported role.");
-      setLoading(false);
+    if (!email || !password) {
+      toast.error("Please fill in all fields");
       return;
     }
 
-    toast.success("Login successful!");
-  } catch (err) {
-    console.error("Login error:", err);
-    const message =
-      err.response?.data?.message ||
-      err.response?.data?.error ||
-      "Login failed. Please check your credentials.";
-    toast.error(message);
-  } finally {
-    setLoading(false);
-  }
-};
+    setLoading(true);
+
+    try {
+      const trimmedEmail = email.trim().toLowerCase();
+
+      const res = await axios.post(
+        "http://localhost:3000/auth/signin",
+        { email: trimmedEmail, password },
+        { withCredentials: true }
+      );
+      
+
+      console.log("Response data:", res.data);
+
+      const { accessToken, refreshToken, user } = res.data.data;
+
+      if (!accessToken || !user) {
+        throw new Error("Authentication failed: Missing token or user.");
+      }
+
+      // Save tokens securely (via backend HttpOnly cookie)
+      // Optional: store user info in localStorage
+      localStorage.setItem("user", JSON.stringify(user));
+
+      // Optionally set token in Axios (if not using HttpOnly cookies)
+      localStorage.setItem("token", accessToken); // or skip if cookies
+
+      // Redirect logic
+      if (user.role === "admin" || trimmedEmail.endsWith("@admin.com")) {
+        navigate("/admin");
+      } else if (
+        user.role === "student" ||
+        trimmedEmail.endsWith("@student.tuwaiq.sa")
+      ) {
+        navigate(`/student/${user.id}`);
+      } else if (
+        user.role === "teacher" ||
+        trimmedEmail.endsWith("@teacher.tuwaiq.sa")
+      ) {
+        navigate(`/teacher/${user.id}`);
+      } else if (
+        user.role === "principle" ||
+        trimmedEmail.endsWith("@principle.tuwaiq.sa")
+      ) {
+        navigate(`/principle/${user.id}`);
+      } else {
+        toast.error("Login failed: Unsupported role.");
+        setLoading(false);
+        return;
+      }
+
+      toast.success("Login successful!");
+    } catch (err) {
+      console.error("Login error:", err);
+      const message =
+        err.response?.data?.message ||
+        err.response?.data?.error ||
+        "Login failed. Please check your credentials.";
+      toast.error(message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>

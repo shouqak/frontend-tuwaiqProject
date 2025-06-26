@@ -17,10 +17,14 @@ const ReadAllStudent = () => {
   const fetchStudents = async () => {
     try {
       //setLoading(true);
-      const response = await axios.get(`${apiUrl}/admin/users`);
-      const filteredStudents = response.data.filter(
+      const response = await axios.get(`${apiUrl}/admin/users`, {
+        withCredentials: true,
+      });
+      const filteredStudents = response.data.data.filter(
         (user) => user.role === "student"
-      );
+      );  
+      console.log(response.data)
+
       setStudents(filteredStudents);
     } catch (error) {
       //setLoading(false);
@@ -30,11 +34,11 @@ const ReadAllStudent = () => {
 
   const filteredStudents = students.filter(
     (student) =>
-      student.fullname.toLowerCase().includes(searchStudent.toLowerCase()) ||
+      student.name.toLowerCase().includes(searchStudent.toLowerCase()) ||
       student.email.toLowerCase().includes(searchStudent.toLowerCase())
   );
 
-/*   if (!loading) {
+  /*   if (!loading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-100">
         <div className="flex flex-col items-center">
