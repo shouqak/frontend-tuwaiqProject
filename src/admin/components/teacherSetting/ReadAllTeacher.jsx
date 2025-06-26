@@ -28,7 +28,7 @@ const ReadAllTeacher = () => {
       );
 
       // Fetch classes
-      const classRes = await axios.get(`${API_URL}/classes`);
+      const classRes = await axios.get(`${API_URL}/class`);
 
       // Map classId → className for easy lookup
       const classMap = {};
