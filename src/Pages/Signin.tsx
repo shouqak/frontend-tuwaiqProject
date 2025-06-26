@@ -1,71 +1,95 @@
-import axios from "axios"
-import React, { useState } from "react"
-import { ToastContainer, toast } from "react-toastify"
-import { SlArrowRight } from "react-icons/sl"
-import { Link, useNavigate } from "react-router"
-import { error } from "node:console"
+import axios from "axios";
+import React, { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import { SlArrowRight } from "react-icons/sl";
+import { Link, useNavigate } from "react-router";
+// import { error } from "node:console"
 
 function Signin() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [loading, setLoading] = useState(false)
-  const api = "https://68219a2d259dad2655afc2ba.mockapi.io"
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const api = "https://68219a2d259dad2655afc2ba.mockapi.io";
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (!email || !password) {
-      toast.error("Please fill in all fields")
-      return
+      toast.error("Please fill in all fields");
+      return;
     }
 
-    setLoading(true)
+    setLoading(true);
 
     try {
-      const res = await axios.get(`${api}/user`)
+      const res = await axios.get(`${api}/user`);
 
       const user = res.data.find(
         (u) => u.email.toLowerCase() === email.trim().toLowerCase()
-      )
+      );
 
       if (!user) {
-        toast.error("Email does not exist")
-        setLoading(false)
-        return
+        toast.error("Email does not exist");
+        setLoading(false);
+        return;
       }
 
       if (user.password !== password) {
-        toast.error("Password is incorrect")
-        setLoading(false)
-        return
+        toast.error("Password is incorrect");
+        setLoading(false);
+        return;
       }
 
-      localStorage.setItem("user", JSON.stringify(user))
+      // localStorage.setItem("user", JSON.stringify(user));
 
-      const trimmedEmail = email.trim().toLowerCase()
+      const trimmedEmail = email.trim().toLowerCase();
 
       if (trimmedEmail.endsWith("@admin.tuwaiq.sa")) {
-        navigate(`/admin`)
+        localStorage.removeItem;
+        localStorage.setItem("username", user.username);
+        localStorage.setItem("fullname", user.fullname);
+        localStorage.setItem("email", user.email);
+        localStorage.setItem("role", user.role);
+        localStorage.setItem("isAuthenticated", "true");
+        navigate(`/admin/adminHome`);
       } else if (trimmedEmail.endsWith("@student.tuwaiq.sa")) {
-        navigate(`/student/${user.id}`)
-      } else if (trimmedEmail.endsWith("Teacher.tuwaiq.sa")) {
-        navigate(`/teacher/${user.id}`)
+        localStorage.removeItem;
+        localStorage.setItem("username", user.username);
+        localStorage.setItem("fullname", user.fullname);
+        localStorage.setItem("email", user.email);
+        localStorage.setItem("role", user.role);
+        localStorage.setItem("isAuthenticated", "true");
+        navigate(`/student`);
+      } else if (trimmedEmail.endsWith("teacher.tuwaiq.sa")) {
+        localStorage.removeItem;
+        localStorage.setItem("username", user.username);
+        localStorage.setItem("fullname", user.fullname);
+        localStorage.setItem("email", user.email);
+        localStorage.setItem("role", user.role);
+        localStorage.setItem("isAuthenticated", "true");
+        navigate(`/teacher`);
       } else if (trimmedEmail.endsWith("@principle.tuwaiq.sa")) {
-        navigate(`/principle/${user.id}`)
+        localStorage.removeItem;
+        localStorage.setItem("username", user.username);
+        localStorage.setItem("fullname", user.fullname);
+        localStorage.setItem("email", user.email);
+        localStorage.setItem("role", user.role);
+        localStorage.setItem("isAuthenticated", "true");
+        navigate(`/principle/${user.id}`);
       } else {
-        toast.error("Failed Login")
+        toast.error("Failed Login");
       }
 
-      toast.success("Login successful!")
+      toast.success("Login successful!");
     } catch (err) {
-      console.error(err)
-      toast.error("An error occurred. Please try again.")
+      console.error(err);
+      toast.error("An error occurred. Please try again.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <>
@@ -86,10 +110,7 @@ function Signin() {
               Sign in to your account
             </h1>
 
-            <form
-              className="space-y-4 md:space-y-6"
-              onSubmit={handleSubmit}
-            >
+            <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
               <div>
                 <label
                   htmlFor="email"
@@ -140,7 +161,7 @@ function Signin() {
         </div>
       </section>
     </>
-  )
+  );
 }
 
-export default Signin
+export default Signin;

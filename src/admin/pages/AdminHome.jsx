@@ -1,19 +1,28 @@
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router";
+import { toast } from "react-toastify";
 
 function AdminHome() {
-  const name = localStorage.getItem("fullname") ;
+  const name = localStorage.getItem("fullname");
   const username = localStorage.getItem("username");
   const email = localStorage.getItem("email");
 
   const navigate = useNavigate();
   const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
+  const role = localStorage.getItem("role") === "admin";
 
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate("/admin/");
+      navigate("/auth/signin");
     }
   }, [isAuthenticated, navigate]);
+
+  useEffect(() => {
+    if (!role) {
+      navigate("/auth/signin");
+      toast.error("You are not authorize")
+    }
+  }, [role, navigate]);
 
   const SettingsRow = ({ title, path }) => (
     <div className="flex justify-between items-center p-4 border-b border-gray-200">
@@ -28,13 +37,13 @@ function AdminHome() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <div className="bg-blue-600 text-white">
-        {/* Admin Navigation */}
-      </div>
+      <div className="bg-blue-600 text-white">{/* Admin Navigation */}</div>
 
       <div className="flex flex-col items-center justify-center py-10 px-6">
         <div className="bg-white shadow-md rounded-lg p-6 w-full md:w-2/3 lg:w-1/2">
-          <h2 className="text-2xl font-bold text-center mb-4">Admin Information</h2>
+          <h2 className="text-2xl font-bold text-center mb-4">
+            Admin Information
+          </h2>
           <div className="text-lg">
             <p className="mb-2">
               <span className="font-semibold">Name:</span> {name}

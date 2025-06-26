@@ -1,14 +1,15 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useEffect } from "react";
+import { Link, useNavigate } from "react-router";
+import { toast } from "react-toastify";
 
-function Home() {
+function TeacherHome() {
   const name = localStorage.getItem("fullname");
   const username = localStorage.getItem("username");
   const email = localStorage.getItem("email");
 
   const navigate = useNavigate();
   const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
-  const role = localStorage.getItem("role") === "student";
+  const role = localStorage.getItem("role") === "Teacher";
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -19,15 +20,29 @@ function Home() {
   useEffect(() => {
     if (!role) {
       navigate("/auth/signin");
-      toast.error("You are not authorize");
+      toast.error("You are not authorize")
     }
   }, [role, navigate]);
+
+  const SettingsRow = ({ title, path }) => (
+    <div className="flex justify-between items-center p-4 border-b border-gray-200">
+      <p className="text-lg font-semibold">{title}</p>
+      <Link to={path}>
+        <button className="py-2 px-4 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 transition">
+          {title} List
+        </button>
+      </Link>
+    </div>
+  );
+
   return (
-    <div>
+    <div className="min-h-screen bg-gray-100">
+      <div className="bg-blue-600 text-white">{/* Admin Navigation */}</div>
+
       <div className="flex flex-col items-center justify-center py-10 px-6">
         <div className="bg-white shadow-md rounded-lg p-6 w-full md:w-2/3 lg:w-1/2">
           <h2 className="text-2xl font-bold text-center mb-4">
-            student Information
+            Teacher Information
           </h2>
           <div className="text-lg">
             <p className="mb-2">
@@ -42,7 +57,17 @@ function Home() {
           </div>
         </div>
       </div>
+
+      <div className="bg-gray-50 py-8 px-6">
+        <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg">
+          <h2 className="text-2xl font-bold text-center py-4 border-b border-gray-200">
+            Teacher Settings
+          </h2>
+          <SettingsRow title="Attendance" path="/teacher/attendance" />
+        </div>
+      </div>
     </div>
   );
 }
-export default Home;
+
+export default TeacherHome;
