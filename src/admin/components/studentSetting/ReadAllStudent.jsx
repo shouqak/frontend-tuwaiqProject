@@ -16,7 +16,7 @@ const ReadAllStudent = () => {
   const fetchStudents = async () => {
     try {
       //setLoading(true);
-      const response = await axios.get(`https://attendancesystem-ar5v.onrender.com//admin/users`, {
+      const response = await axios.get(`https://attendancesystem-ar5v.onrender.com/admin/users`, {
         withCredentials: true,
       });
       const filteredStudents = response.data.data.filter(
