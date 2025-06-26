@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router";
+import { apiUrl } from "../../../Utility/Utility";
 // import AdminNav from "../../components/admin/AdminNav";
 
 const ReadAllPrinciple = () => {
   const [Principles, setPrinciples] = useState([]);
   const [searchPrinciple, setSearchPrinciple] = useState("");
   const [loading, setLoading] = useState(false);
-  const api = "https://68219a2d259dad2655afc2ba.mockapi.io";
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const ReadAllPrinciple = () => {
   const fetchPrinciples = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${api}/user`);
+      const response = await axios.get(`${apiUrl}/user`);
       const filteredPrinciples = response.data.filter(
         (user) => user.role === "principle"
       );
@@ -31,7 +31,7 @@ const ReadAllPrinciple = () => {
   const filteredPrinciples = Principles.filter(
     (Principle) =>
       Principle.fullname.toLowerCase().includes(searchPrinciple.toLowerCase()) ||
-      Principle.username.toLowerCase().includes(searchPrinciple.toLowerCase()) ||
+      //Principle.username.toLowerCase().includes(searchPrinciple.toLowerCase()) ||
       Principle.email.toLowerCase().includes(searchPrinciple.toLowerCase())
   );
 
@@ -58,7 +58,7 @@ const ReadAllPrinciple = () => {
         <div className="w-full max-w-3xl mb-6 flex gap-2 items-center">
           <input
             type="text"
-            placeholder="Search by name, username, or email"
+            placeholder="Search by name, or email"
             value={searchPrinciple}
             onChange={(e) => setSearchPrinciple(e.target.value)}
             className="w-full border rounded-md h-10 px-4 text-gray-700 focus:ring-2 focus:ring-blue-400 focus:outline-none"
@@ -78,7 +78,7 @@ const ReadAllPrinciple = () => {
             <thead className="bg-blue-600 text-white">
               <tr>
                 <th className="px-4 py-2 text-left">Full Name</th>
-                <th className="px-4 py-2 text-left">Username</th>
+                {/* <th className="px-4 py-2 text-left">Username</th> */}
                 <th className="px-4 py-2 text-left">Email</th>
                 <th className="px-4 py-2 text-left">More Details</th>
               </tr>
@@ -92,9 +92,9 @@ const ReadAllPrinciple = () => {
                   <td className="px-4 py-2 text-gray-700">
                     {Principle.fullname}
                   </td>
-                  <td className="px-4 py-2 text-gray-700">
+                 {/*  <td className="px-4 py-2 text-gray-700">
                     {Principle.username}
-                  </td>
+                  </td> */}
                   <td className="px-4 py-2 text-gray-700">{Principle.email}</td>
                   <td className="px-4 py-2">
                     <Link

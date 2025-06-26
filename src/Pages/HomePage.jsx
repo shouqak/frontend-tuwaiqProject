@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router'
 
-function HpmePage() {
+function HomePage() {
   return (
  <section className="h-screen flex justify-center items-center bg-gray-50 py-20 px-4 text-center">
       <div className="max-w-4xl mx-auto">
@@ -21,4 +21,4 @@ function HpmePage() {
     </section>  )
 }
 
-export default HpmePage
+export default HomePage

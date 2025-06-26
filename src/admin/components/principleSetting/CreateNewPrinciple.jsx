@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
 import { ToastContainer, toast } from "react-toastify";
+import { apiUrl } from "../../../Utility/Utility";
 // import AdminNav from "../../components/admin/AdminNav";
 
 function CreateNewPrinciple() {
@@ -31,7 +32,6 @@ function CreateNewPrinciple() {
   );
 
   const nav = useNavigate();
-  const api = "https://68219a2d259dad2655afc2ba.mockapi.io";
 
   const register = async () => {
     let isValid = true;
@@ -79,8 +79,8 @@ function CreateNewPrinciple() {
     }
     if (isValid) {
       try {
-        // Sending data to the API
-        const response = await axios.post(`${api}/user`, {
+        // Sending data to the apiUrl
+        const response = await axios.post(`${apiUrl}/user`, {
           fullname,
           //username,
           email,
@@ -112,101 +112,95 @@ function CreateNewPrinciple() {
       <div>
         {/* <AdminNav /> */}
       </div>
-      <div className="min-h-screen min-w-screen flex justify-center items-center">
-        <div className=" flex items-center gap-7 shadow-2xl rounded-2xl bg-gray-100">
-          <div className="flex flex-col justify-start p-3">
-            <p className="text-xs font-medium">
-              <span className="text-4xl font-bold">Attendance</span> system
-            </p>
-            <p className="text-lg font-medium ">
-              Create new <b>Principle</b>
-            </p>
-          </div>
-          <div className="flex flex-col gap-4 w-100 p-4">
-            {/* //! register form  */}
-            {/* Full name */}
-            <div className="flex flex-col gap-1">
-              <label htmlFor="fname" className="font-medium text-sm">
-                Full Name
-              </label>
-              <input
-                type="text"
-                id="fname"
-                className="border rounded-lg h-6 pl-2"
-                value={fullname}
-                onChange={(e) => setFullname(e.target.value)}
-              />
-              <span className="text-xs text-gray-700">{fullnameErr}</span>
-            </div>
-            {/* username */}
-            <div className="flex flex-col">
-              <label htmlFor="username" className="font-medium text-sm">
-                Username
-              </label>
-              <input
-                type="text"
-                id="username"
-                className="border rounded-lg h-6 pl-2 "
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-              <span className="text-xs text-gray-700">{UsernameErr}</span>
-            </div>
-            {/* email */}
-            <div className="flex flex-col">
-              <label htmlFor="email" className="font-medium text-sm">
-                Email
-              </label>
-              <input
-                type="text"
-                id="email"
-                className="border rounded-lg h-6 pl-2"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <span className="text-xs text-gray-700">{emailErr}</span>
-            </div>
-            {/* password */}
-            <div className="flex flex-col">
-              <label htmlFor="password" className="font-medium text-sm">
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                className="border rounded-lg h-6 pl-2"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <span className="text-xs text-gray-700">{passwordErr}</span>
-            </div>
-            {/* confirm password */}
-            <div className="flex flex-col">
-              <label htmlFor="conPassword" className="font-medium text-sm">
-                Confirm Password{" "}
-              </label>
-              <input
-                type="password"
-                id="conPassword"
-                className="border rounded-lg h-6 pl-2"
-                value={conPassword}
-                onChange={(e) => setConPassword(e.target.value)}
-              />
-              <span className="text-xs text-gray-700">{conPasswordErr}</span>
-            </div>
-            <div>
-              <ToastContainer />
-              <button
-                onClick={register}
-                className="w-full bg-blue-500 mt-3 h-8 rounded-lg text-white text-sm font-medium"
-              >
-                Register
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div className="min-h-screen flex justify-center items-center bg-gray-100 px-4 py-8">
+  <div className="flex flex-col md:flex-row gap-10 shadow-2xl rounded-2xl bg-white overflow-hidden max-w-4xl w-full">
+
+    {/* Left Info Section */}
+    <div className="bg-blue-600 text-white p-8 flex flex-col justify-center">
+      <h1 className="text-3xl font-bold mb-2">Attendance System</h1>
+      <p className="text-lg opacity-90">Register a new principal</p>
     </div>
+
+    {/* Form Section */}
+    <div className="flex flex-col gap-5 p-8 w-full">
+
+      <form className="space-y-5" onSubmit={register}>
+        {/* Full Name */}
+        <div className="flex flex-col gap-1">
+          <label htmlFor="fname" className="font-medium text-sm text-gray-700">
+            Full Name
+          </label>
+          <input
+            type="text"
+            id="fname"
+            className="border border-gray-300 rounded-lg h-10 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={fullname}
+            onChange={(e) => setFullname(e.target.value)}
+          />
+          <span className="text-xs text-gray-500">{fullnameErr}</span>
+        </div>
+
+        {/* Email */}
+        <div className="flex flex-col gap-1">
+          <label htmlFor="email" className="font-medium text-sm text-gray-700">
+            Email
+          </label>
+          <input
+            type="email"
+            id="email"
+            className="border border-gray-300 rounded-lg h-10 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <span className="text-xs text-gray-500">{emailErr}</span>
+        </div>
+
+        {/* Password */}
+        <div className="flex flex-col gap-1">
+          <label htmlFor="password" className="font-medium text-sm text-gray-700">
+            Password
+          </label>
+          <input
+            type="password"
+            id="password"
+            className="border border-gray-300 rounded-lg h-10 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <span className="text-xs text-gray-500">{passwordErr}</span>
+        </div>
+
+        {/* Confirm Password */}
+        <div className="flex flex-col gap-1">
+          <label htmlFor="conPassword" className="font-medium text-sm text-gray-700">
+            Confirm Password
+          </label>
+          <input
+            type="password"
+            id="conPassword"
+            className="border border-gray-300 rounded-lg h-10 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={conPassword}
+            onChange={(e) => setConPassword(e.target.value)}
+          />
+          <span className="text-xs text-gray-500">{conPasswordErr}</span>
+        </div>
+
+        {/* Submit Button */}
+        <div className="pt-2">
+          <ToastContainer />
+          <button
+            type="submit"
+            className="w-full bg-blue-600 hover:bg-blue-700 transition-colors text-white font-medium py-2.5 rounded-lg"
+          >
+            Register
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+
   );
 }
 
