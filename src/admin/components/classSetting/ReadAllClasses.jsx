@@ -28,7 +28,7 @@ const ReadAllClasses = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this class?")) return;
     try {
-      await axios.delete(`${apiUrl}/classes/${id}`);
+      await axios.delete(`${API_URL}class/${id}`);
       toast.success("Class deleted successfully!");
       fetchClasses(); // Refresh list
     } catch (error) {
