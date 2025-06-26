@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router"
 
 import { ToastContainer, toast } from "react-toastify"
-import { apiUrl } from "../../../Utility/Utility"
+const API_URL = import.meta.env.VITE_API_URL;
 // import AdminNav from "../../components/admin/AdminNav";
 
 function CreateNewTeacher() {
@@ -89,7 +89,7 @@ function CreateNewTeacher() {
     if (isValid) {
       try {
         // Sending data to the apiUrl
-        const response = await axios.post(`${apiUrl}/user`, {
+        const response = await axios.post(`${API_URL}/user`, {
           fullname,
           //username,
           email,

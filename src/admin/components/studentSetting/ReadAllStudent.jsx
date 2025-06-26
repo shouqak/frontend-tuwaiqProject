@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router";
 // import AdminNav from "../../components/admin/AdminNav";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const ReadAllStudent = () => {
   const [students, setStudents] = useState([]);
@@ -16,7 +17,7 @@ const ReadAllStudent = () => {
   const fetchStudents = async () => {
     try {
       //setLoading(true);
-      const response = await axios.get(`https://attendancesystem-ar5v.onrender.com/admin/users`, {
+      const response = await axios.get(`${API_URL}admin/users`, {
         withCredentials: true,
       });
       const filteredStudents = response.data.data.filter(

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router";
 import { apiUrl } from "../../../Utility/Utility";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const StudentDetails = () => {
   const { id } = useParams();
@@ -16,7 +17,7 @@ const StudentDetails = () => {
   const fetchStudentDetails = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${apiUrl}/user/${id}`);
+      const response = await axios.get(`${API_URL}/user/${id}`);
       setStudent(response.data);
     } catch (error) {
       console.error("Error fetching student details:", error);

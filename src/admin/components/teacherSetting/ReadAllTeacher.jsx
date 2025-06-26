@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router";
-import { apiUrl } from "../../../Utility/Utility";
+const API_URL = import.meta.env.VITE_API_URL;
 import NavbarAdmin from "../adminSetting/NavbarAdmin";
 // import AdminNav from "../../components/admin/AdminNav";
 
@@ -22,13 +22,13 @@ const ReadAllTeacher = () => {
       //setLoading(true);
 
       // Fetch teachers
-      const teacherRes = await axios.get(`${apiUrl}/user`);
+      const teacherRes = await axios.get(`${API_URL}/user`);
       const filteredTeachers = teacherRes.data.filter(
         (user) => user.role === "Teacher"
       );
 
       // Fetch classes
-      const classRes = await axios.get(`${apiUrl}/classes`);
+      const classRes = await axios.get(`${API_URL}/classes`);
 
       // Map classId → className for easy lookup
       const classMap = {};
